@@ -1,0 +1,13 @@
+#Ignore folders
+/[Bb]uilds/
+/[Dd]ependencies
+/[Dd]oc/
+/[Oo]bj/
+/[Ll]ogs/
+
+#Ignore files
+*.Dd
+.DS_Store
+
+#Ignore executables
+OpenGL
