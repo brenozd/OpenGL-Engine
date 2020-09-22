@@ -6,7 +6,8 @@
 /[Ll]ogs/
 
 #Ignore files
-*.Dd
+*.d
+*.code-workspace
 .DS_Store
 
 #Ignore executables
