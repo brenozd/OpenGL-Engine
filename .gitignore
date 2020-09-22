@@ -38,4 +38,8 @@
 # Executables
 *.exe
 *.out
+<<<<<<< HEAD
 *.app
+=======
+*.app
+>>>>>>> ce07514960a361e297db709eea95602bb0c120ba
