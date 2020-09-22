@@ -7,7 +7,7 @@ Keep in mind that this isnt a formal project and its only for study purposes!
 
 ### How can i use it?
 Just clone and compile it using makefile provided.
-I've done it using gcc
+I've done it using g++
 
 ### Documentation used
 * [docs.gl](https://docs.gl/)
@@ -15,6 +15,6 @@ I've done it using gcc
 * [learnopengl.com](https://learnopengl.com/)
 * [Learning Modern OpenGL](https://raw.githubusercontent.com/Overv/Open.GL/master/ebook/Modern%20OpenGL%20Guide.pdf)
 
-All credits goes to the creators of those amazing materials;
+All credits goes to the creators of those amazing materials.
 
 In code, you can find some links wich were used to fix some bugs and answer some questions. 
