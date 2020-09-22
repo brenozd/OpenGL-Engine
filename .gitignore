@@ -5,10 +5,37 @@
 /[Oo]bj/
 /[Ll]ogs/
 
-#Ignore files
+# Prerequisites and vscode files
 *.d
 *.code-workspace
 .DS_Store
 
-#Ignore executables
-OpenGL
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
