@@ -1,5 +1,5 @@
 # OpenGL Engine
-=============
+____
 
 ### What is this?
 This is an informal study about C++ 11 and OpenGL.
@@ -8,7 +8,7 @@ Keep in mind that this isn't a professional project and has learning purposes on
 
 ### What was used?
 In this project we used:
-* C++ 11 and g++
+* C++ 11 and g++ 9.3.0
 * OpenGL 4
 * GLFW 3
 
