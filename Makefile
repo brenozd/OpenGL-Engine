@@ -6,16 +6,21 @@ LDFLAGS = -lglfw -lGL -lGLEW
 # Makefile settings - Can be customized.
 APPNAME = OpenGL
 EXT = .cpp
+BUILDDIR = builds
 SRCDIR = src
 OBJDIR = obj
+LINKDIR = $(OBJDIR)/links
 
 ############## Do not change anything from here downwards! #############
 SRC = $(wildcard $(SRCDIR)/*$(EXT))
 OBJ = $(SRC:$(SRCDIR)/%$(EXT)=$(OBJDIR)/%.o)
 DEP = $(OBJ:$(OBJDIR)/%.o=%.d)
+
 # UNIX-based OS variables & settings
 RM = rm
 DELOBJ = $(OBJ)
+DELLINK = $(SRC:$(SRCDIR)/%$(EXT)=$(LINKDIR)/%.d)
+
 # Windows OS variables & settings
 DEL = del
 EXE = .exe
@@ -29,11 +34,11 @@ all: $(APPNAME)
 
 # Builds the app
 $(APPNAME): $(OBJ)
-	$(CC) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
+	$(CC) $(CXXFLAGS) -o $(BUILDDIR)/$@ $^ $(LDFLAGS)
 
 # Creates the dependecy rules
 %.d: $(SRCDIR)/%$(EXT)
-	@$(CPP) $(CFLAGS) $< -MM -MT $(@:%.d=$(OBJDIR)/%.o) >$@
+	@$(CPP) $(CFLAGS) $< -MM -MT $(@:%.d=$(OBJDIR)/%.o) >$(LINKDIR)/$@
 
 # Includes all .h files
 -include $(DEP)
@@ -46,7 +51,7 @@ $(OBJDIR)/%.o: $(SRCDIR)/%$(EXT)
 # Cleans complete project
 .PHONY: clean
 clean:
-	$(RM) $(DELOBJ) $(DEP) $(APPNAME)
+	$(RM) $(DELOBJ) $(DELLINK) $(BUILDDIR)/$(APPNAME)
 
 # Cleans only all files with the extension .d
 .PHONY: cleandep
