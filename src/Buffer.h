@@ -28,11 +28,11 @@ public:
     Layout layout;
 
     Buffer();
-    Buffer(const T *array, unsigned int size);
+    Buffer(const T *array, unsigned int count);
     virtual ~Buffer();
 
     void add(T object);
-    void add(T *array, unsigned int size);
+    void add(T *array, unsigned int count);
     void removeAt(unsigned int position);
 
     virtual void bind();

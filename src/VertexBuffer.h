@@ -11,7 +11,7 @@ private:
     unsigned int _size = 0;
 
 public:
-    VertexBuffer(const float *data, unsigned int size);
+    VertexBuffer(const float *data, unsigned int count);
 
     virtual ~VertexBuffer();
 

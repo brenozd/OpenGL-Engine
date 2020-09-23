@@ -7,9 +7,9 @@ template <typename T>
 Buffer<T>::Buffer(){}
 
 template <typename T>
-Buffer<T>::Buffer(const T *arrayObject, unsigned int size)
+Buffer<T>::Buffer(const T *arrayObject, unsigned int count)
 {
-    _data.insert(_data.end(), arrayObject, arrayObject+size);
+    _data.insert(_data.end(), arrayObject, arrayObject+count);
     _count = _data.size();
 }
 
@@ -17,9 +17,9 @@ template <typename T>
 Buffer<T>::~Buffer(){}
 
 template <typename T>
-void Buffer<T>::add(T *arrayObject, unsigned int size)
+void Buffer<T>::add(T *arrayObject, unsigned int count)
 {
-    _data.insert(_data.end(), arrayObject, arrayObject+size);
+    _data.insert(_data.end(), arrayObject, arrayObject+count);
     _count = _data.size();
 }
 

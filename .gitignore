@@ -4,6 +4,7 @@
 /[Dd]oc/
 /[Oo]bj/
 /[Ll]ogs/
+/.vscode/
 
 # Prerequisites and vscode files
 *.d

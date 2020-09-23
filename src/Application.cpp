@@ -15,7 +15,7 @@ GLFWwindow *window;
 
 int main(int argc, char *argv[])
 {
-    //Initialization
+#pragma region Initialization
     if (!glfwInit())
     {
         printf("GLFW not initialized...");
@@ -35,6 +35,8 @@ int main(int argc, char *argv[])
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
 
+    glewExperimental = true;
+
     if (GLEW_OK != glewInit())
     {
         printf("GLEW not initialized...");
@@ -44,9 +46,8 @@ int main(int argc, char *argv[])
     std::cout << "[OpenGL Version] " << std::endl
               << glGetString(GL_VERSION) << std::endl;
 
-    glewExperimental = true;
-
     glViewport(0, 0, SCREEN_SIZE_X, SCREEN_SIZE_Y);
+#pragma endregion Initialization
 
     float positions0[] = {
         -0.5f,
@@ -72,19 +73,18 @@ int main(int argc, char *argv[])
 
     unsigned int indices[] = {
         0, 1, 2,
-        2, 3, 1};
+        2, 3, 1,
+        4, 5, 6,
+        6, 7, 4};
 
-    VertexBuffer vbo0(positions0, 8 * sizeof(float));
+    VertexArray vao0 = VertexArray();
+
+    VertexBuffer vbo0 = VertexBuffer(positions0, 8);
     vbo0.setLayout(2, GL_FLOAT, GL_FALSE);
 
-    VertexBuffer vbo1(positions1, 8 * sizeof(float));
-    vbo1.setLayout(2, GL_FLOAT, GL_FALSE);
-
-    vbo0.bind();
-    vbo1.bind();
-
     IndexBuffer ibo(indices, 6);
-    ibo.bind();
+
+    vao0.addBuffer(vbo0);
 
     Shader::bind("res/shaders/basic.vertex");
     Shader fragment = Shader("res/shaders/basic.fragment");
@@ -95,7 +95,10 @@ int main(int argc, char *argv[])
         glClear(GL_COLOR_BUFFER_BIT);
         fragment.setUniform4f("u_Color", 0.3f, 0.3f, 0.3f, 1.0f);
 
-        GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
+        vao0.bind();
+        ibo.bind();
+        GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, ibo.getDataEntryPointer()));
+        vao0.unbind();
 
         glfwPollEvents();
         glfwSwapBuffers(window);

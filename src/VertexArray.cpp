@@ -1,6 +1,3 @@
-#ifndef VertexArray_cpp
-#define VertexArray_cpp
-
 #include "VertexArray.h"
 
 VertexArray::VertexArray()
@@ -8,18 +5,9 @@ VertexArray::VertexArray()
     GLCall(glGenVertexArrays(1, &_rendererId));
 }
 
-VertexArray::VertexArray(Buffer<float> buff)
+VertexArray::VertexArray(VertexBuffer &vbo)
 {
     GLCall(glGenVertexArrays(1, &_rendererId));
-    addBuffer(buff);
-}
-
-//TO FIX
-VertexArray::VertexArray(float *buff, unsigned int size, int componentSize, unsigned int type, bool normalized)
-{
-    GLCall(glGenVertexArrays(1, &_rendererId));
-    VertexBuffer vbo = VertexBuffer(buff, size);
-    vbo.setLayout(componentSize, type, normalized);
     addBuffer(vbo);
 }
 
@@ -38,20 +26,20 @@ void VertexArray::unbind()
     GLCall(glBindVertexArray(0));
 }
 
-void VertexArray::addBuffer(Buffer<float> buff)
+void VertexArray::addBuffer(VertexBuffer &vbo)
 {
     bind();
-    GLCall(glBindBuffer(buff.type, buff.rendererId));
+    vbo.bind();
 
     unsigned int entryPointer = 0;
-    uint32_t stride = (buff.layout.componentSize * sizeof(float));
-    for (unsigned int i = 0; i < buff.getCount(); i++)
+
+    uint32_t stride = (vbo.layout.componentSize * sizeof(float));
+    for (unsigned int i = 0; i < vbo.getCount(); i++)
     {
         GLCall(glEnableVertexAttribArray(i));
-        GLCall(glVertexAttribPointer(i, buff.layout.componentSize, buff.layout.type, buff.layout.normalized,
+        
+        GLCall(glVertexAttribPointer(i, vbo.layout.componentSize, vbo.layout.type, vbo.layout.normalized,
                                      stride, (void *)entryPointer));
         entryPointer += stride;
     }
 }
-
-#endif

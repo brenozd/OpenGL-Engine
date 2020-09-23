@@ -3,6 +3,7 @@
 
 #include "Renderer.h"
 #include "VertexBuffer.h"
+#include "IndexBuffer.h"
 
 class VertexArray
 {
@@ -11,17 +12,14 @@ private:
 
 public:
     VertexArray();
-
-    VertexArray(Buffer<float> buff);
-
-    VertexArray(float* buff, unsigned int size, int componentSize, unsigned int type, bool normalized);
+    VertexArray(VertexBuffer& vbo);
 
     ~VertexArray();
 
     void bind();
     void unbind();
 
-    void addBuffer(Buffer<float> buff);
+    void addBuffer(VertexBuffer& vbo);
 };
 
 #endif
