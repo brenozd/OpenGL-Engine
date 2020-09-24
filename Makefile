@@ -36,6 +36,12 @@ all: $(APPNAME)
 $(APPNAME): $(OBJ)
 	$(CC) $(CXXFLAGS) -o $(BUILDDIR)/$@ $^ $(LDFLAGS)
 
+#Build a debuggable app
+.PHONY: debuggable
+debuggable: $(OBJ)
+	$(RM) $(BUILDDIR)/$(APPNAME).debug
+	$(CC) $(CXXFLAGS) -g -o $(BUILDDIR)/$(APPNAME).debug $^ $(LDFLAGS)
+
 # Creates the dependecy rules
 %.d: $(SRCDIR)/%$(EXT)
 	@$(CPP) $(CFLAGS) $< -MM -MT $(@:%.d=$(OBJDIR)/%.o) >$(LINKDIR)/$@

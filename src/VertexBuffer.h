@@ -7,9 +7,6 @@
 
 class VertexBuffer : public Buffer<float>
 {
-private:
-    unsigned int _size = 0;
-
 public:
     VertexBuffer(const float *data, unsigned int count);
 
@@ -17,5 +14,7 @@ public:
 
     void bind();
     void unbind();
+
+    void add(float *array, unsigned int count);
 };
 #endif

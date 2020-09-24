@@ -8,7 +8,7 @@ IndexBuffer::IndexBuffer(const unsigned int* data, unsigned int count)
     GLCall((glBindBuffer(type, rendererId)));
     GLCall(glBufferData(type, getCount() * sizeof(unsigned int), 
                         getDataEntryPointer(), GL_STATIC_DRAW));
-    unbind();
+    GLCall((glBindBuffer(type, 0)));
 }
 
 IndexBuffer::~IndexBuffer(){

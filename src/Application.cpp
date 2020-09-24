@@ -75,20 +75,23 @@ int main(int argc, char *argv[])
         0, 1, 2,
         2, 3, 1,
         4, 5, 6,
-        6, 7, 4};
+        6, 7, 5};
 
     VertexArray vao0 = VertexArray();
 
+    IndexBuffer ibo(indices, 12);
+
     VertexBuffer vbo0 = VertexBuffer(positions0, 8);
+    vbo0.add(positions1, 8);
     vbo0.setLayout(2, GL_FLOAT, GL_FALSE);
 
-    IndexBuffer ibo(indices, 6);
-
     vao0.addBuffer(vbo0);
+    ibo.bind();
 
     Shader::bind("res/shaders/basic.vertex");
     Shader fragment = Shader("res/shaders/basic.fragment");
     fragment.bind();
+    
 
     while (!glfwWindowShouldClose(window))
     {
@@ -96,8 +99,7 @@ int main(int argc, char *argv[])
         fragment.setUniform4f("u_Color", 0.3f, 0.3f, 0.3f, 1.0f);
 
         vao0.bind();
-        ibo.bind();
-        GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, ibo.getDataEntryPointer()));
+        GLCall(glDrawElements(GL_TRIANGLES, ibo.getCount(), GL_UNSIGNED_INT, ibo.getDataEntryPointer()));
         vao0.unbind();
 
         glfwPollEvents();

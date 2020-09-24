@@ -20,7 +20,6 @@ class Buffer
 
 private:
     std::vector<T> _data;
-    unsigned int _count = 0;
 
 public:
     unsigned int type = 0;
@@ -40,7 +39,8 @@ public:
 
     void setLayout(int componentSize, unsigned int type,bool normalized);
 
-    inline unsigned int getCount() const { return _count; };
+    inline unsigned int getCount() const { return (unsigned int)_data.size(); };
+    inline unsigned int getSize() const  { return getCount()*sizeof(T); };
 
     inline std::vector<T> getData() const { return _data; };
 
