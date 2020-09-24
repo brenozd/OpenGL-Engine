@@ -3,11 +3,17 @@
 VertexBuffer::VertexBuffer(const float *data, unsigned int count)
     : Buffer(data, count)
 {
-    type = GL_ARRAY_BUFFER;
+    Buffer::type = GL_ARRAY_BUFFER;
     GLCall(glGenBuffers(1, &rendererId));
-    bind();
-    GLCall(glBufferData(type, getSize(), getDataEntryPointer(), GL_STATIC_DRAW);)
-    unbind();
+}
+
+VertexBuffer::VertexBuffer(const float *data, unsigned int count, 
+                           int componentSize, unsigned int type, bool normalized)
+    : Buffer(data, count)
+{
+    Buffer::type = GL_ARRAY_BUFFER;
+    GLCall(glGenBuffers(1, &rendererId));
+    setLayout(componentSize, type, normalized);
 }
 
 VertexBuffer::~VertexBuffer()
@@ -25,10 +31,17 @@ void VertexBuffer::unbind()
     GLCall(glBindBuffer(type, 0));
 }
 
-void VertexBuffer::add(float *array, unsigned int count)
+void VertexBuffer::apply()
 {
-    Buffer::add(array, count);
     bind();
     GLCall(glBufferData(type, getSize(), getDataEntryPointer(), GL_STATIC_DRAW);)
     unbind();
+}
+
+void VertexBuffer::setLayout(int componentSize, unsigned int type, bool normalized)
+{
+    _layout.componentSize = componentSize;
+    _layout.type = type;
+    _layout.normalized = normalized;
+    _layout.entryPointer = getDataEntryPointer();
 }

@@ -67,40 +67,53 @@ int main(int argc, char *argv[])
         0.75f,
         0.75f,
         0.25f,
-        0.75f,
-        0.75f,
     };
 
-    unsigned int indices[] = {
+    unsigned int indices0[] = {
         0, 1, 2,
-        2, 3, 1,
-        4, 5, 6,
-        6, 7, 5};
+        2, 3, 1};
+
+    unsigned int indices1[] = {
+        0,1,2};
 
     VertexArray vao0 = VertexArray();
 
-    IndexBuffer ibo(indices, 12);
+    IndexBuffer ibo0(indices0, 6);
+    ibo0.apply();
 
-    VertexBuffer vbo0 = VertexBuffer(positions0, 8);
-    vbo0.add(positions1, 8);
-    vbo0.setLayout(2, GL_FLOAT, GL_FALSE);
+    VertexBuffer vbo0 = VertexBuffer(positions0, 8, 2, GL_FLOAT, GL_FALSE);
+    vbo0.apply();
 
     vao0.addBuffer(vbo0);
-    ibo.bind();
+    vao0.linkIbo(&ibo0);
+
+    VertexArray vao1 = VertexArray();
+
+    IndexBuffer ibo1(indices1, 6);
+    ibo1.apply();
+
+    VertexBuffer vbo1 = VertexBuffer(positions1, 8, 2, GL_FLOAT, GL_FALSE);
+    vbo1.apply();
+
+    vao1.addBuffer(vbo1);
+    vao1.linkIbo(&ibo1);
 
     Shader::bind("res/shaders/basic.vertex");
     Shader fragment = Shader("res/shaders/basic.fragment");
     fragment.bind();
-    
+    float c = 0.0f, s = -0.05f;
 
     while (!glfwWindowShouldClose(window))
     {
         glClear(GL_COLOR_BUFFER_BIT);
-        fragment.setUniform4f("u_Color", 0.3f, 0.3f, 0.3f, 1.0f);
+        fragment.setUniform4f("u_Color", c, 0.3f, 0.3f, 1.0f);
+        Renderer::draw(vao0, fragment);
+        fragment.setUniform4f("u_Color", 0.3f, c, 0.3f, 1.0f);
+        Renderer::draw(vao1, fragment);
 
-        vao0.bind();
-        GLCall(glDrawElements(GL_TRIANGLES, ibo.getCount(), GL_UNSIGNED_INT, ibo.getDataEntryPointer()));
-        vao0.unbind();
+        if(c > 1 || c < 0)
+            s *= -1.0f;
+        c += s;
 
         glfwPollEvents();
         glfwSwapBuffers(window);

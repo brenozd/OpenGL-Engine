@@ -50,9 +50,9 @@ ShaderProgram Shader::parseShader(std::string path)
 unsigned int Shader::compileShader(ShaderProgram shaderProgram)
 {
     std::map<ShaderType, unsigned int> glTypeMap;
-    glTypeMap[ShaderType::VERTEX] = 0x8B31;   //VERTEX
-    glTypeMap[ShaderType::FRAGMENT] = 0x8B30; //FRAGMENT
-    glTypeMap[ShaderType::COMPUTE] = 0X91B9;  //COMPUTE
+    glTypeMap[ShaderType::VERTEX]   = 0x8B31;   //VERTEX
+    glTypeMap[ShaderType::FRAGMENT] = 0x8B30;   //FRAGMENT
+    glTypeMap[ShaderType::COMPUTE]  = 0X91B9;   //COMPUTE
 
     unsigned int id = glCreateShader(glTypeMap.at(shaderProgram.type));
     const char *src = shaderProgram.source.c_str();
@@ -116,10 +116,11 @@ void Shader::unbind(){
 
 int Shader::setUniform4f(std::string param, float v1, float v2, float v3, float v4)
 {
+    bind();
     if (_rendererId == 0)
         return 0;
 
-    int location = glGetUniformLocation(_rendererId, "u_Color");
+    int location = glGetUniformLocation(_rendererId, param.c_str());
     GLCall(glUniform4f(location, v1, v2, v3, v4));
     return 1;
 }

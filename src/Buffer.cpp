@@ -44,13 +44,4 @@ void Buffer<T>::unbind()
 {
 }
 
-template <typename T>
-void Buffer<T>::setLayout(int componentSize, unsigned int type,bool normalized)
-{
-    layout.componentSize = componentSize;
-    layout.type = type;
-    layout.normalized = normalized;
-    layout.entryPointer = getDataEntryPointer();
-}
-
 #endif

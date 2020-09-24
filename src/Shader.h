@@ -1,7 +1,8 @@
 #ifndef Shader_h
 #define Shader_h
 
-#include "Renderer.h"
+#include <GL/glew.h>
+#include "Debugger.h"
 #include <stdio.h>
 #include <iostream>
 #include <fstream>

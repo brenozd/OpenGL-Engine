@@ -1,7 +1,8 @@
 #ifndef Buffer_h
 #define Buffer_h
 
-#include "Renderer.h"
+#include <GL/glew.h>
+#include "Debugger.h"
 
 #include <vector>
 #include <iostream>
@@ -10,21 +11,13 @@
 template <typename T>
 class Buffer
 {
-    struct Layout
-    {
-        int componentSize = 0;
-        unsigned int type = 0;
-        bool normalized = 0;
-        const void *entryPointer;
-    };
-
 private:
     std::vector<T> _data;
 
 public:
     unsigned int type = 0;
     unsigned int rendererId = 0;
-    Layout layout;
+    
 
     Buffer();
     Buffer(const T *array, unsigned int count);
@@ -36,8 +29,6 @@ public:
 
     virtual void bind();
     virtual void unbind();
-
-    void setLayout(int componentSize, unsigned int type,bool normalized);
 
     inline unsigned int getCount() const { return (unsigned int)_data.size(); };
     inline unsigned int getSize() const  { return getCount()*sizeof(T); };
