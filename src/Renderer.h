@@ -4,6 +4,7 @@
 #include <GL/glew.h>
 #include "VertexArray.h"
 #include "Shader.h"
+
 class Renderer
 {
 public:

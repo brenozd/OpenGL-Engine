@@ -1,6 +1,8 @@
 #ifndef Vertex_h
 #define Vertex_h
 
+#define COLOR_STRIDE 3*sizeof(float)
+
 struct Vertex{
     float x = 0;
     float y = 0;

@@ -8,6 +8,7 @@
 #include <fstream>
 #include <map>
 #include <string.h>
+#include <unordered_map>
 
 enum class ShaderType
 {
@@ -34,6 +35,8 @@ private:
 
     static unsigned int compileShader(ShaderProgram shaderProgram);
 
+    std::unordered_map<std::string, int> _uniformsCache;
+
 public:
     Shader(std::string path);
     ~Shader();
@@ -42,7 +45,9 @@ public:
     
     static unsigned int bind(std::string path);
     static void unbind();
+
     int setUniform4f(std::string param, float v1, float v2, float v3, float v4);
+    int getUniformLocation(std::string uniform);
 
     inline unsigned int GetShaderId() {return _rendererId;};
     inline ShaderType GetShaderType() {return _shaderProgram.type;};

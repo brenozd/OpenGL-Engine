@@ -7,8 +7,4 @@ void Renderer::draw(VertexArray &vao, Shader frgs)
 
     GLCall(glDrawElements(GL_TRIANGLES, vao.getIbo().getCount(), GL_UNSIGNED_INT, 
                           vao.getIbo().getDataEntryPointer()))
-
-    vao.unbind();
-    //BUG
-    //frgs.unbind();
 }

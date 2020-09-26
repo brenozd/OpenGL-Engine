@@ -8,6 +8,8 @@
 
 #include <GLFW/glfw3.h>
 
+#include "Vertex.h"
+
 #define SCREEN_SIZE_X 640
 #define SCREEN_SIZE_Y 480
 
@@ -102,6 +104,8 @@ int main(int argc, char *argv[])
     Shader fragment = Shader("res/shaders/basic.fragment");
     fragment.bind();
     float c = 0.0f, s = -0.05f;
+
+    std::cout << COLOR_STRIDE << std::endl;
 
     while (!glfwWindowShouldClose(window))
     {

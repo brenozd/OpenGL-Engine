@@ -50,9 +50,9 @@ ShaderProgram Shader::parseShader(std::string path)
 unsigned int Shader::compileShader(ShaderProgram shaderProgram)
 {
     std::map<ShaderType, unsigned int> glTypeMap;
-    glTypeMap[ShaderType::VERTEX]   = 0x8B31;   //VERTEX
-    glTypeMap[ShaderType::FRAGMENT] = 0x8B30;   //FRAGMENT
-    glTypeMap[ShaderType::COMPUTE]  = 0X91B9;   //COMPUTE
+    glTypeMap[ShaderType::VERTEX] = 0x8B31;   //VERTEX
+    glTypeMap[ShaderType::FRAGMENT] = 0x8B30; //FRAGMENT
+    glTypeMap[ShaderType::COMPUTE] = 0X91B9;  //COMPUTE
 
     unsigned int id = glCreateShader(glTypeMap.at(shaderProgram.type));
     const char *src = shaderProgram.source.c_str();
@@ -83,11 +83,14 @@ Shader::Shader(std::string path)
     glAttachShader(program, _shaderProgram.id);
     glLinkProgram(program);
     glValidateProgram(program);
+    glDetachShader(program, _shaderProgram.id);
     glDeleteShader(_shaderProgram.id);
+
     _rendererId = program;
 }
 
-Shader::~Shader() {
+Shader::~Shader()
+{
     glDeleteProgram(_rendererId);
 }
 
@@ -110,7 +113,8 @@ unsigned int Shader::bind(std::string path)
     return program;
 }
 
-void Shader::unbind(){
+void Shader::unbind()
+{
     GLCall(glUseProgram(0));
 }
 
@@ -119,8 +123,17 @@ int Shader::setUniform4f(std::string param, float v1, float v2, float v3, float 
     bind();
     if (_rendererId == 0)
         return 0;
-
-    int location = glGetUniformLocation(_rendererId, param.c_str());
-    GLCall(glUniform4f(location, v1, v2, v3, v4));
+    GLCall(glUniform4f(getUniformLocation(param), v1, v2, v3, v4));
     return 1;
+}
+
+int Shader::getUniformLocation(std::string uniform)
+{
+    if(_uniformsCache.find(uniform) != _uniformsCache.end())
+        return _uniformsCache[uniform];
+    else{
+        int location = glGetUniformLocation(_rendererId, uniform.c_str());
+        _uniformsCache[uniform] = location;
+        return location;
+    }
 }
