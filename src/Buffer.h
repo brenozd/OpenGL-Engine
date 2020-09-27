@@ -17,7 +17,6 @@ private:
 public:
     unsigned int type = 0;
     unsigned int rendererId = 0;
-    
 
     Buffer();
     Buffer(const T *array, unsigned int count);
@@ -35,7 +34,7 @@ public:
 
     inline std::vector<T> getData() const { return _data; };
 
-    inline const void *getDataEntryPointer() const { return (void *)&_data[0]; };
+    inline const void *getDataEntryPointer() const { return (void *)&_data[0];};
 
     friend std::ostream &operator<<(std::ostream &os, const Buffer &buff)
     {

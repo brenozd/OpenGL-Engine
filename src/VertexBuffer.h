@@ -1,36 +1,41 @@
 #ifndef VertexBuffer_h
 #define VertexBuffer_h
 
+#include <vector>
+
 #include <GL/glew.h>
 #include "Debugger.h"
 #include "Buffer.h"
 #include "Buffer.cpp"
+#include "Vertex.h"
 
-class VertexBuffer : public Buffer<float>
+struct attribLayout
+{
+    int size;
+    unsigned int type;
+    bool normalized;
+    uint32_t stride;
+    void* entryPointer;
+    unsigned int offset;
+};
+
+class VertexBuffer : public Buffer<Vertex>
 {
 private:
-    struct Layout
-    {
-        int componentSize = 0;
-        unsigned int type = 0;
-        bool normalized = 0;
-        const void *entryPointer;
-    };
-    Layout _layout;
+    std::vector<attribLayout> _layouts;
 
 public:
-    VertexBuffer(const float *data, unsigned int count);
-    VertexBuffer(const float *data, unsigned int count, int componentSize, unsigned int type,bool normalized);
+    VertexBuffer(const Vertex *data, unsigned int count);
 
     virtual ~VertexBuffer();
 
     void bind();
     void unbind();
     void apply();
-    
-    inline Layout layout() const {return _layout;};
-    void setLayout(int componentSize, unsigned int type,bool normalized);
 
-    
+    inline std::vector<attribLayout>  getLayouts() const { return _layouts;};
+    void copyLayouts(VertexBuffer& vbo);
+
+    void setLayout(unsigned int index, int size, unsigned int type, bool normalized, unsigned int offset);
 };
 #endif

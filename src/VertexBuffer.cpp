@@ -1,19 +1,10 @@
 #include "VertexBuffer.h"
 
-VertexBuffer::VertexBuffer(const float *data, unsigned int count)
+VertexBuffer::VertexBuffer(const Vertex *data, unsigned int count)
     : Buffer(data, count)
 {
     Buffer::type = GL_ARRAY_BUFFER;
     GLCall(glGenBuffers(1, &rendererId));
-}
-
-VertexBuffer::VertexBuffer(const float *data, unsigned int count, 
-                           int componentSize, unsigned int type, bool normalized)
-    : Buffer(data, count)
-{
-    Buffer::type = GL_ARRAY_BUFFER;
-    GLCall(glGenBuffers(1, &rendererId));
-    setLayout(componentSize, type, normalized);
 }
 
 VertexBuffer::~VertexBuffer()
@@ -38,10 +29,21 @@ void VertexBuffer::apply()
     unbind();
 }
 
-void VertexBuffer::setLayout(int componentSize, unsigned int type, bool normalized)
+void VertexBuffer::copyLayouts(VertexBuffer& vbo)
 {
-    _layout.componentSize = componentSize;
-    _layout.type = type;
-    _layout.normalized = normalized;
-    _layout.entryPointer = getDataEntryPointer();
+    _layouts = std::vector<attribLayout>(vbo.getLayouts());
+}
+
+void VertexBuffer::setLayout(unsigned int index, int size, unsigned int type, bool normalized,
+                             unsigned int offset)
+{
+    attribLayout l;
+
+    l.size = size;
+    l.type = type;
+    l.normalized = normalized;
+    l.stride = sizeof(Vertex);
+    l.entryPointer = (void*)(offset*sizeof(float));
+    
+    _layouts.insert(_layouts.begin() + index, l);
 }

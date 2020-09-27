@@ -1,10 +1,10 @@
 #include "Renderer.h"
 
-void Renderer::draw(VertexArray &vao, Shader frgs)
+void Renderer::draw(VertexArray &vao, ShaderProgram shaderP)
 {
+    
     vao.bind();
-    frgs.bind();
-
-    GLCall(glDrawElements(GL_TRIANGLES, vao.getIbo().getCount(), GL_UNSIGNED_INT, 
+    shaderP.bind();
+    GLCall(glDrawElements(GL_TRIANGLES, vao.getIbo().getCount(), GL_UNSIGNED_INT,
                           vao.getIbo().getDataEntryPointer()))
 }

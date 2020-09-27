@@ -3,12 +3,15 @@
 
 #include <GL/glew.h>
 #include "VertexArray.h"
-#include "Shader.h"
+#include "ShaderProgram.h"
 
 class Renderer
 {
+private:
+    std::vector<ShaderAttrib> _shaders;
+
 public:
-    static void draw(VertexArray &vao, Shader frgs);
+    static void draw(VertexArray &vao, ShaderProgram shaderP);
 };
 
 #endif

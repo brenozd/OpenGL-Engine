@@ -10,7 +10,6 @@ class VertexArray
 {
 private:
     unsigned int _rendererId = 0;
-    unsigned int _elementsInBuffer = 0;
     IndexBuffer* _ibo;
 
 public:

@@ -9,6 +9,7 @@
 #include <map>
 #include <string.h>
 #include <unordered_map>
+#include <vector>
 
 enum class ShaderType
 {
@@ -18,7 +19,7 @@ enum class ShaderType
     COMPUTE = 2,
 };
 
-struct ShaderProgram
+struct ShaderAttrib
 {
     unsigned int id;
     ShaderType type;
@@ -28,30 +29,20 @@ struct ShaderProgram
 class Shader
 {
 private:
-    unsigned int _rendererId;
-    ShaderProgram _shaderProgram;
+    ShaderAttrib _shaderAttrib;
 
-    static ShaderProgram parseShader(std::string path);
+    ShaderAttrib parseShader(std::string path);
 
-    static unsigned int compileShader(ShaderProgram shaderProgram);
-
-    std::unordered_map<std::string, int> _uniformsCache;
-
+    unsigned int compileShader(ShaderAttrib shaderProgram);
+    
 public:
     Shader(std::string path);
+    Shader();
     ~Shader();
 
-    void bind();
     
-    static unsigned int bind(std::string path);
-    static void unbind();
 
-    int setUniform4f(std::string param, float v1, float v2, float v3, float v4);
-    int getUniformLocation(std::string uniform);
-
-    inline unsigned int GetShaderId() {return _rendererId;};
-    inline ShaderType GetShaderType() {return _shaderProgram.type;};
-    inline std::string GetShaderSource() {return _shaderProgram.source;};
+    inline ShaderAttrib getShaderAttrib() {return _shaderAttrib;};
 };
 
 #endif

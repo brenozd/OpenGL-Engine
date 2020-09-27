@@ -25,17 +25,22 @@ void VertexArray::addBuffer(VertexBuffer &vbo)
     bind();
     vbo.bind();
 
-    unsigned int entryPointer = _elementsInBuffer * sizeof(float);
-    uint32_t stride = (vbo.layout().componentSize * sizeof(float));
-    GLCall(glEnableVertexAttribArray(0));
-    GLCall(glVertexAttribPointer(0, vbo.layout().componentSize, vbo.layout().type, vbo.layout().normalized,
-                                 stride, (void *)entryPointer));
-    _elementsInBuffer += vbo.getCount();
+    std::vector<attribLayout> elements = vbo.getLayouts();
+    unsigned int elementsInBuffer = elements.size();
+    
+    for (int i = 0; i < elementsInBuffer; i++)
+    {
+        
+        GLCall(glEnableVertexAttribArray(i));
+        GLCall(glVertexAttribPointer(i, elements[i].size, elements[i].type, elements[i].normalized,
+                                     elements[i].stride, elements[i].entryPointer));
+    }
+
     vbo.unbind();
     unbind();
 }
 
-void VertexArray::linkIbo(IndexBuffer* ibo)
+void VertexArray::linkIbo(IndexBuffer *ibo)
 {
     _ibo = ibo;
 }

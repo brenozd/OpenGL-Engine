@@ -1,10 +1,12 @@
 #ifndef Debugger_h
 #define Debugger_h
 
+#include <GL/glew.h>
+
 #include <stdio.h>
 #include <iostream>
 
-#include <GL/glew.h>
+
 
 #pragma region Macros
 #define BREAKPOINT asm("int $3")
@@ -26,6 +28,6 @@ bool GLLogCall(const char *function, const char *file, int line);
 
 unsigned long int getExecTime(void* func);
 
-void testTriangle();
+static void testTriangle();
 
 #endif
