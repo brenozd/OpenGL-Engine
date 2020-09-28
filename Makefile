@@ -1,76 +1,63 @@
-# Compiler settings - Can be customized.
-CC = g++
-CXXFLAGS = -std=c++11
-LDFLAGS = -lglfw -lGL -lGLEW
-
-# Makefile settings - Can be customized.
+#####################
+##Compiler Settings##
+#####################
+CXX = g++
+CXX_FLAGS = -std=c++11
+LD_FLAGS = -lglfw -lGL -lGLEW
 APPNAME = OpenGL
+
+#####################
+#### Dir Settings ###
+#####################
+BIN = bin
+SRC = src
+OBJ = obj
+
+#####################
+## Target Variables #
+#####################
 EXT = .cpp
-BUILDDIR = builds
-SRCDIR = src
-OBJDIR = obj
-LINKDIR = $(OBJDIR)/links
+SRC_FILES = $(wildcard $(SRC)/*$(EXT))
+OBJ_FILES = $(SRC_FILES:$(SRC)/%$(EXT)=$(OBJ)/%.o)
+DEP_FILES = $(OBJ_FILES:$(OBJ)/%.o=%.d)
 
-############## Do not change anything from here downwards! #############
-SRC = $(wildcard $(SRCDIR)/*$(EXT))
-OBJ = $(SRC:$(SRCDIR)/%$(EXT)=$(OBJDIR)/%.o)
-DEP = $(OBJ:$(OBJDIR)/%.o=%.d)
-
-# UNIX-based OS variables & settings
-RM = rm
-DELOBJ = $(OBJ)
-DELLINK = $(SRC:$(SRCDIR)/%$(EXT)=$(LINKDIR)/%.d)
-
-# Windows OS variables & settings
-DEL = del
-EXE = .exe
-WDELOBJ = $(SRC:$(SRCDIR)/%$(EXT)=$(OBJDIR)\\%.o)
-
-########################################################################
-####################### Targets beginning here #########################
-########################################################################
+#####################
+###### Targets ######
+#####################
 
 all: $(APPNAME)
 
-# Builds the app
-$(APPNAME): $(OBJ)
-	$(CC) $(CXXFLAGS) -o $(BUILDDIR)/$@ $^ $(LDFLAGS)
+# Build Application
+$(APPNAME) : $(OBJ_FILES)
+	@echo "🚧 Building..."
+	$(CXX) $(CXX_FLAGS) -o $(BIN)/$@ $^ $(LD_FLAGS)
 
-#Build a debuggable app
-.PHONY: debuggable
-debuggable: $(OBJ)
-	$(RM) $(BUILDDIR)/$(APPNAME).debug
-	$(CC) $(CXXFLAGS) -g -o $(BUILDDIR)/$(APPNAME).debug $^ $(LDFLAGS)
+#Run executable
+.PHONY: run
+run:
+	clear
+	@echo "🚀 Running..."
+	./$(BIN)/$(APPNAME)
 
-# Creates the dependecy rules
-%.d: $(SRCDIR)/%$(EXT)
-	@$(CPP) $(CFLAGS) $< -MM -MT $(@:%.d=$(OBJDIR)/%.o) >$(LINKDIR)/$@
-
-# Includes all .h files
--include $(DEP)
-
-# Building rule for .o files and its .c/.cpp in combination with all .h
-$(OBJDIR)/%.o: $(SRCDIR)/%$(EXT)
-	$(CC) $(CXXFLAGS) -o $@ -c $<
-
-################### Cleaning rules for Unix-based OS ###################
-# Cleans complete project
+#Clean executable
 .PHONY: clean
 clean:
-	$(RM) $(DELOBJ) $(DELLINK) $(BUILDDIR)/$(APPNAME)
+	@echo "🧹 Cleaning executable..."
+	-rm $(BIN)/*
 
-# Cleans only all files with the extension .d
-.PHONY: cleandep
-cleandep:
-	$(RM) $(DEP)
+#Clean dependencies
+.PHONY: cleand
+cleand:
+	@echo "🧹 Cleaning dependencies..."
+	-rm $(OBJ)/*.d $(OBJ)/*.o
 
-#################### Cleaning rules for Windows OS #####################
-# Cleans complete project
-.PHONY: cleanw
-cleanw:
-	$(DEL) $(WDELOBJ) $(DEP) $(APPNAME)$(EXE)
+#Create dependencie files
+%.d: $(SRC)/%$(EXT)
+	@$(CPP) $(CFLAGS) $< -MM -MT $(@:%.d=$(OBJ)/%.o) >$(OBJ)/$@
 
-# Cleans only all files with the extension .d
-.PHONY: cleandepw
-cleandepw:
-	$(DEL) $(DEP)
+#Includes .d
+-include $(DEP_FILES)
+
+#Create .o files
+$(OBJ)/%.o: $(SRC)/%$(EXT)
+	$(CXX) $(CXX_FLAGS) -o $@ -c $<

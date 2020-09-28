@@ -63,14 +63,16 @@ int main(int argc, char *argv[])
     Vertex positions1[] = {
         {0.25f, 0.25f, 0, 1.00f, 0.00f, 0.00f, 1.0f},
         {0.25f, 0.75f, 0, 0.00f, 1.00f, 0.00f, 1.0f},
-        {0.75f, 0.25f, 0, 0.00f, 0.00f, 1.00f, 1.0f}};
+        {0.75f, 0.25f, 0, 0.00f, 0.00f, 1.00f, 1.0f},
+        {0.75f, 0.75f, 0, 0.00f, 0.00f, 0.00f, 1.0f}};
 
     unsigned int indices0[] = {
         0, 1, 2,
         2, 3, 1};
 
     unsigned int indices1[] = {
-        0, 1, 2};
+        0, 1, 2,
+        2, 3, 1};
 
     VertexArray vao0 = VertexArray();
 
@@ -99,8 +101,8 @@ int main(int argc, char *argv[])
     vao1.addBuffer(vbo1);
     vao1.linkIbo(&ibo1);
 
-    Shader vertex = Shader("res/shaders/basic.vertex");
-    Shader fragment = Shader("res/shaders/basic.fragment");
+    Shader vertex = Shader("res/shaders/basic.vert");
+    Shader fragment = Shader("res/shaders/basic.frag");
 
     ShaderProgram shaderProgram = ShaderProgram();
     shaderProgram.addShader(&vertex);
@@ -116,8 +118,6 @@ int main(int argc, char *argv[])
 
         Renderer::draw(vao1, shaderProgram);
         Renderer::draw(vao0, shaderProgram);
-
-        
 
         glfwPollEvents();
         glfwSwapBuffers(window);

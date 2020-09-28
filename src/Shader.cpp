@@ -35,14 +35,14 @@ ShaderAttrib Shader::parseShader(std::string path)
 
     //Get Shader Type
     std::map<std::string, ShaderType> sTypesMap;
-    sTypesMap["vertex"] = ShaderType::VERTEX;
-    sTypesMap["fragment"] = ShaderType::FRAGMENT;
-    sTypesMap["compute"] = ShaderType::COMPUTE;
+    sTypesMap["vert"] = ShaderType::VERTEX;
+    sTypesMap["frag"] = ShaderType::FRAGMENT;
+    sTypesMap["comp"] = ShaderType::COMPUTE;
 
     std::string ext = path.substr(path.find_last_of(".") + 1);
     try
     {
-        shaderP.type = sTypesMap.at(ext);
+        GLCall(shaderP.type = sTypesMap.at(ext));
     }
     catch (const std::exception &e)
     {
