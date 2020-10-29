@@ -26,6 +26,7 @@ public:
     void bind();
     void unbind();
 
+    int setUniform1i(std::string param, int v1);
     int setUniform1f(std::string param, float v1);
     int setUniform4f(std::string param, float v1, float v2, float v3, float v4);
 };

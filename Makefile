@@ -25,7 +25,7 @@ DEP_FILES = $(OBJ_FILES:$(OBJ)/%.o=%.d)
 ###### Targets ######
 #####################
 
-all: $(APPNAME)
+all: clean $(APPNAME) run
 
 # Build Application
 $(APPNAME) : $(OBJ_FILES)

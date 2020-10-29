@@ -27,7 +27,7 @@ ShaderAttrib Shader::parseShader(std::string path)
             std::cout << "ERROR -  read only " << ifs.gcount() << "characters" << std::endl;
 
         ifs.close();
-
+        buffer[length-1]='\0';
         shaderP.source = std::string(buffer);
 
         delete[] buffer;
@@ -62,7 +62,8 @@ unsigned int Shader::compileShader(ShaderAttrib shaderProgram)
 
     unsigned int id = glCreateShader(glTypeMap.at(shaderProgram.type));
     const char *src = shaderProgram.source.c_str();
-    glShaderSource(id, 1, &src, nullptr);
+    int size = shaderProgram.source.length();
+    glShaderSource(id, 1, &src, &size);
     glCompileShader(id);
 
     int result;

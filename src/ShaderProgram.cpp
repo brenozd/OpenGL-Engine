@@ -66,6 +66,16 @@ int ShaderProgram::getUniformLocation(std::string uniform)
     }
 }
 
+int ShaderProgram::setUniform1i(std::string param, int v1)
+{
+    bind();
+    if (_programId == GL_INVALID_INDEX)
+        return 0;
+    GLCall(glUniform1i(getUniformLocation(param), v1));
+    unbind();
+    return 1;
+}
+
 int ShaderProgram::setUniform1f(std::string param, float v1)
 {
     bind();

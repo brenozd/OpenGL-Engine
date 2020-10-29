@@ -10,6 +10,9 @@ struct Vertex{
     float g;
     float b;
     float a;
+
+    float tx;
+    float ty;
 };
 
 #endif
